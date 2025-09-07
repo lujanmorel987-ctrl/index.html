@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿me perdonas?</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Patrón de carretera en el fondo */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 40px,
+                    rgba(255,255,255,0.1) 40px,
+                    rgba(255,255,255,0.1) 80px
+                ),
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 40px,
+                    rgba(255,255,255,0.05) 40px,
+                    rgba(255,255,255,0.05) 80px
+                );
+            z-index: 1;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            font-size: 3.5em;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin-bottom: 30px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .message {
+            font-size: 1.3em;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 50px;
+            background: rgba(0,0,0,0.3);
+            padding: 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            max-width: 500px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 15px 50px;
+            font-size: 1.4em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            text-transform: lowercase;
+        }
+
+        .btn-yes {
+            background: linear-gradient(45deg, #00b894, #00a085);
+            color: white;
+        }
+
+        .btn-yes:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        }
+
+        .btn-no {
+            background: linear-gradient(45deg, #e17055, #d63031);
+            color: white;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .car {
+            position: absolute;
+            font-size: 3em;
+            animation: drive 12s linear infinite;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+        }
+
+        .car1 { top: 15%; animation-delay: 0s; }
+        .car2 { top: 25%; animation-delay: -4s; }
+        .car3 { top: 35%; animation-delay: -8s; }
+        .car4 { top: 75%; animation-delay: -2s; }
+        .car5 { top: 85%; animation-delay: -6s; }
+
+        .success-message {
+            display: none;
+            text-align: center;
+            color: #00b894;
+            font-size: 1.8em;
+            margin-top: 30px;
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        @keyframes drive {
+            0% { left: -150px; }
+            100% { left: calc(100% + 150px); }
+        }
+
+        .confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .confetti-piece {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            animation: fall 4s linear infinite;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        /* Nubes en movimiento */
+        .cloud {
+            position: absolute;
+            color: rgba(255,255,255,0.4);
+            font-size: 2em;
+            animation: float-cloud 20s linear infinite;
+        }
+
+        @keyframes float-cloud {
+            0% { left: -100px; }
+            100% { left: calc(100% + 100px); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Autitos cool -->
+    <div class="car car1">🏎️</div>
+    <div class="car car2">🚗</div>
+    <div class="car car3">🚙</div>
+    <div class="car car4">🚓</div>
+    <div class="car car5">🏁</div>
+
+    <!-- Nubes -->
+    <div class="cloud" style="top: 5%; animation-delay: 0s;">☁️</div>
+    <div class="cloud" style="top: 8%; animation-delay: -10s;">☁️</div>
+    <div class="cloud" style="top: 12%; animation-delay: -15s;">☁️</div>
+
+    <div class="container">
+        <h1>¿me perdonas?</h1>
+        
+        <div class="message">
+            <p>metí la pata, te amo</p>
+            <p>perdón</p>
+        </div>
+
+        <div class="buttons">
+            <button class="btn btn-yes" onclick="forgive()">sí</button>
+            <button class="btn btn-no" id="noBtn" onmouseover="runAway()" onclick="runAway()">no</button>
+        </div>
+
+        <div class="success-message" id="successMessage">
+            <p>genial, gracias</p>
+            <p>todo solucionado</p>
+        </div>
+    </div>
+
+    <div class="confetti" id="confetti"></div>
+
+    <script>
+        function forgive() {
+            document.getElementById('successMessage').style.display = 'block';
+            document.querySelector('.buttons').style.display = 'none';
+            document.querySelector('.message').innerHTML = '<p>perfecto, ya quedamos a mano</p>';
+            
+            // Crear confetti
+            createConfetti();
+            
+            // Cambiar el título
+            document.querySelector('h1').textContent = 'listo';
+            document.querySelector('h1').style.color = '#00b894';
+            
+            // Enviar notificación de que tocó "sí"
+            sendNotification('¡Tocó SÍ! 🎉');
+        }
+
+        function runAway() {
+            const noBtn = document.getElementById('noBtn');
+            const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+            const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+            
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+            
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+            noBtn.style.transform = 'scale(0.9)';
+            
+            // Cambiar el texto del botón
+            const texts = ['no', 'nope', 'nel', 'jamás', 'ni modo'];
+            noBtn.textContent = texts[Math.floor(Math.random() * texts.length)];
+            
+            // Enviar notificación de que intentó tocar "no"
+            sendNotification('Intentó tocar NO pero se escapó 😄');
+        }
+
+        function sendNotification(message) {
+            // Crear una notificación visual en la página
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: rgba(0,0,0,0.8);
+                color: white;
+                padding: 15px 20px;
+                border-radius: 10px;
+                font-size: 14px;
+                z-index: 10000;
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255,255,255,0.2);
+                animation: slideIn 0.3s ease;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            // Remover la notificación después de 3 segundos
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.style.animation = 'slideOut 0.3s ease';
+                    setTimeout(() => {
+                        if (notification.parentNode) {
+                            notification.parentNode.removeChild(notification);
+                        }
+                    }, 300);
+                }
+            }, 3000);
+            
+            // Si el navegador soporta notificaciones push, pedirlas
+            if ('Notification' in window) {
+                if (Notification.permission === 'granted') {
+                    new Notification('Estado del perdón', {
+                        body: message,
+                        icon: '🚗'
+                    });
+                } else if (Notification.permission !== 'denied') {
+                    Notification.requestPermission().then(permission => {
+                        if (permission === 'granted') {
+                            new Notification('Estado del perdón', {
+                                body: message,
+                                icon: '🚗'
+                            });
+                        }
+                    });
+                }
+            }
+        }
+
+        function createConfetti() {
+            const confetti = document.getElementById('confetti');
+            const colors = ['#00b894', '#0984e3', '#6c5ce7', '#fd79a8', '#fdcb6e'];
+            
+            for (let i = 0; i < 40; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'confetti-piece';
+                piece.style.left = Math.random() * 100 + '%';
+                piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+                piece.style.animationDelay = Math.random() * 3 + 's';
+                piece.style.animationDuration = (Math.random() * 2 + 3) + 's';
+                confetti.appendChild(piece);
+                
+                setTimeout(() => {
+                    if (piece.parentNode) {
+                        piece.parentNode.removeChild(piece);
+                    }
+                }, 6000);
+            }
+        }
+
+        // Agregar más autitos cada cierto tiempo
+        setInterval(() => {
+            const cars = ['🚗', '🚙', '🏎️', '🚓', '🚕'];
+            const newCar = document.createElement('div');
+            newCar.className = 'car';
+            newCar.innerHTML = cars[Math.floor(Math.random() * cars.length)];
+            newCar.style.top = (Math.random() * 70 + 10) + '%';
+            newCar.style.fontSize = (Math.random() * 1.5 + 2) + 'em';
+            newCar.style.animationDuration = (Math.random() * 5 + 8) + 's';
+            newCar.style.left = '-150px';
+            document.body.appendChild(newCar);
+            
+            setTimeout(() => {
+                if (newCar.parentNode) {
+                    newCar.parentNode.removeChild(newCar);
+                }
+            }, 15000);
+        }, 3000);
+    </script>
+</body>
+</html>
